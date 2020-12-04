@@ -2,15 +2,7 @@
 
 import Foundation
 
-func loadPuzzleInput() -> String? {
-    guard let puzzleUrl = Bundle.main.url(forResource: "puzzle_1", withExtension: "txt") else { return nil }
-
-    guard let content = try? String(contentsOf: puzzleUrl, encoding: .utf8) else { return nil }
-    
-    return content
-}
-
-let content = loadPuzzleInput()!
+let content = loadPuzzleInput(day: "1")!
 let numbersArray = content.split(separator: "\n").compactMap { Int($0) }
 
 
