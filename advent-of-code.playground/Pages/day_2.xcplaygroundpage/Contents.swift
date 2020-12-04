@@ -4,7 +4,7 @@ import Foundation
 
 var content = loadPuzzleInput(day: "2")!
 
-
+/* Puzzle 1 */
 func validPassword(_ password: String, char c: Character, in range: ClosedRange<Int>) -> Bool {
     return range.contains(password.reduce(0) { $1 == c ? $0 + 1 : $0 })
 }
@@ -19,7 +19,7 @@ func convertChar(from substring: Substring) -> Character {
     return convertedString.removeFirst()
 }
 
-var validPasswordCount = content.split(separator: "\n").filter { (password) in
+let validPasswordCount = content.split(separator: "\n").filter { (password) in
     let elements = password.split(separator: " ")
     let range = convertRange(from: String(elements[0]))
     let char = convertChar(from: elements[1])
@@ -28,5 +28,31 @@ var validPasswordCount = content.split(separator: "\n").filter { (password) in
 }.count
 
 print("Found \(validPasswordCount) valid passwords.")
+
+/* Puzzle 2 */
+extension String {
+    subscript(i: Int) -> Character {
+        return self[index(startIndex, offsetBy: i)]
+    }
+}
+
+
+func reallyValidPassword(_ password: String, char c: Character, firstIndex: Int, secondIndex: Int) -> Bool {
+    var validPassword = false
+    if password[firstIndex] == c { validPassword.toggle() }
+    if password[secondIndex] == c { validPassword.toggle() }
+    return validPassword
+}
+
+
+let reallyValidPasswordCount = content.split(separator: "\n").filter { password in
+    let elements = password.split(separator: " ")
+    let range = String(elements[0]).split(separator: "-").compactMap { Int($0) }.map { $0 - 1 }
+    let char = convertChar(from: elements[1])
+    let passwordString = String(elements[2])
+    return reallyValidPassword(passwordString, char: char, firstIndex: range[0], secondIndex: range[1])
+}.count
+
+print("Found \(reallyValidPasswordCount) really valid passwords.")
 
 //: [Next](@next)
