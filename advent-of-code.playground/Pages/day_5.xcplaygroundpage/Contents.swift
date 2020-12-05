@@ -8,6 +8,7 @@ let boardingPasses = content.split(separator: "\n")
 
 assert(boardingPasses.count == 875)
 
+/* Puzzle 1 */
 func splitPass(_ pass: String) -> [String] {
     assert(pass.count == 10)
     
@@ -39,7 +40,7 @@ func decipherCode(_ encodedString: String) -> Int {
     return startRange
 }
 
-let maximumId = boardingPasses
+let ids = boardingPasses
     .map { splitPass(String($0)) }
     .map { (splitStrings: [String]) -> Int in
         let row = decipherCode(splitStrings[0])
@@ -47,8 +48,23 @@ let maximumId = boardingPasses
         
         return row * 8 + col
     }
-    .max()
 
-print("Maximum id is \(maximumId ?? -1)")
+print("Maximum id is \(ids.max() ?? -1)")
+
+/* Puzzle 2 */
+func findMyId(in ids: [Int]) -> Int {
+    let sortedIds = ids.sorted()
+    
+    for i in 1 ..< sortedIds.count - 1 {
+        // when id before is 2 smaller we found it
+        if sortedIds[i - 1] == sortedIds[i] - 2 {
+            return sortedIds[i] - 1
+        }
+    }
+    
+    return -1
+}
+
+print("My id is \(findMyId(in: ids))")
 
 //: [Next](@next)
