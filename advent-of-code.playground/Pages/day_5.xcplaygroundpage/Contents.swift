@@ -22,15 +22,15 @@ func splitPass(_ pass: String) -> [String] {
 }
 
 func decipherCode(_ encodedString: String) -> Int {
-    let powerOfTwo = encodedString.count
+    let powerOfTwo = encodedString.count - 1
     var startRange = 0
-    var endRange = (2 << (encodedString.count - 1)) - 1
+    var endRange = (2 << (powerOfTwo)) - 1
     
     for (index, c) in encodedString.enumerated() {
         if "FL".contains(c) {
             endRange -= Int(round(Double(endRange - startRange) / 2))
         } else if "BR".contains(c) {
-            startRange += (2 << (powerOfTwo - index - 2))
+            startRange += (2 << (powerOfTwo - index - 1))
         } else {
             fatalError("Not a valid character found!")
         }
